@@ -22,12 +22,14 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main"/>
     <FrameLayout
             android:id="@+id/frame_base"
             android:layout_width="match_parent"
             android:visibility="gone"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
+    <include android:id="@+id/fragment_layout"
+            layout="@layout/content_main"/>
+
 
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

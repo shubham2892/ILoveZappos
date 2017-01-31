@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,14 +59,19 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
                         if (response.isSuccessful()){
                             // set the product object
                             ProductSearch productSearch= response.body();
-                            Product firstProduct = productSearch.getProducts().get(0);
-                            ((MainActivity) getActivity()).setProduct(firstProduct);
-                            // Show the product page
-                            ((MainActivity) getActivity()).showProductFragment();
+                            if (productSearch.getCurrentResultCount() > 0) {
+                                Product firstProduct = productSearch.getProducts().get(0);
+                                ((MainActivity) getActivity()).setProduct(firstProduct);
+                                // Show the product page
+                                ((MainActivity) getActivity()).showProductFragment();
 
-                            ProductFragment fragment = ProductFragment.newInstance();
-                            getFragmentManager().beginTransaction().add(R.id.frame_base,fragment,
-                                    "PRODUCT").commit();
+                                ProductFragment fragment = ProductFragment.newInstance();
+                                getFragmentManager().beginTransaction().add(R.id.frame_base, fragment,
+                                        "PRODUCT").commit();
+                            }else{
+                                Toast.makeText(getActivity(),"No Product found with this search " +
+                                        "term", Toast.LENGTH_SHORT).show();
+                            }
 
                         }else{
                             // Show the error message

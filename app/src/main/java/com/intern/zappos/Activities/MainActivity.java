@@ -7,6 +7,7 @@ import com.intern.zappos.R;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     RestAPI service;
     Product mProduct;
     private FrameLayout frameLayout;
+    private View fragmentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         frameLayout = (FrameLayout) findViewById(R.id.frame_base);
+        fragmentLayout = findViewById(R.id.fragment_layout);
     }
 
     public RestAPI getRetrofit(){
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showProductFragment(){
+        fragmentLayout.setVisibility(View.GONE);
         frameLayout.setVisibility(View.VISIBLE);
     }
 
