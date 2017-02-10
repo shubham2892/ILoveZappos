@@ -7,7 +7,7 @@ import com.intern.zappos.POJOs.ProductSearch;
 import com.intern.zappos.R;
 
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +25,10 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
 
 
     private EditText searchQuery;
+
+    public static MainActivityFragment newInstance() {
+        return new MainActivityFragment();
+    }
 
     public MainActivityFragment() {
     }
@@ -51,38 +55,39 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
             case R.id.search_button_local:
                 Call<ProductSearch> productSearchCall = ((MainActivity) getActivity())
                         .getRetrofit().groupList(searchQuery.getText().toString(), GlobalVariables.KEY);
-                Log.d("sg","Searching for product");
+
+
                 productSearchCall.enqueue(new Callback<ProductSearch>() {
                     @Override
                     public void onResponse(Call<ProductSearch> call, Response<ProductSearch> response) {
-                        Log.d("sg","Response Received");
-                        if (response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             // set the product object
-                            ProductSearch productSearch= response.body();
+                            ProductSearch productSearch = response.body();
                             if (productSearch.getCurrentResultCount() > 0) {
                                 Product firstProduct = productSearch.getProducts().get(0);
                                 ((MainActivity) getActivity()).setProduct(firstProduct);
-                                // Show the product page
+                                // Show the product fragment
                                 ((MainActivity) getActivity()).showProductFragment();
 
                                 ProductFragment fragment = ProductFragment.newInstance();
                                 getFragmentManager().beginTransaction().add(R.id.frame_base, fragment,
-                                        "PRODUCT").commit();
-                            }else{
-                                Toast.makeText(getActivity(),"No Product found with this search " +
+                                        "PRODUCT").addToBackStack("PRODUCT").commit();
+                            } else {
+                                // Convert this to snackbar
+                                Toast.makeText(getActivity(), "No Product found with this search " +
                                         "term", Toast.LENGTH_SHORT).show();
                             }
 
-                        }else{
+                        } else {
                             // Show the error message
-
+                            Toast.makeText(getActivity(), "Something wrong with your network", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ProductSearch> call, Throwable t) {
                         // Show a error message
-                        Log.d("sg","Network call failed");
+                        Log.d("sg", "Network call failed");
                     }
                 });
         }

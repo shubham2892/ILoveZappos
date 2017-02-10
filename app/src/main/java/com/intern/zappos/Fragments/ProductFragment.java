@@ -5,11 +5,10 @@ import com.intern.zappos.POJOs.Product;
 import com.intern.zappos.R;
 import com.intern.zappos.databinding.FragmentProductBinding;
 
+import android.app.Fragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ public class ProductFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.d("sg","Product fragment created");
         FragmentProductBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_product, container, false);
         mProduct = ((MainActivity)getActivity()).getProduct();
@@ -44,4 +42,7 @@ public class ProductFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
     }
+
+
+
 }

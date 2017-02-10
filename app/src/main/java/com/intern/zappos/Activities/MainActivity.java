@@ -1,19 +1,24 @@
 package com.intern.zappos.Activities;
 
+import com.intern.zappos.Fragments.MainActivityFragment;
 import com.intern.zappos.Network.RestAPI;
 import com.intern.zappos.POJOs.Product;
 import com.intern.zappos.R;
+import com.squareup.picasso.Picasso;
 
+import android.databinding.BindingAdapter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -25,8 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     RestAPI service;
     Product mProduct;
-    private FrameLayout frameLayout;
-    private View fragmentLayout;
+    //    private View fragmentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +47,16 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        frameLayout = (FrameLayout) findViewById(R.id.frame_base);
-        fragmentLayout = findViewById(R.id.fragment_layout);
+        Fragment mainActivityFragment = new MainActivityFragment();
+        getFragmentManager().beginTransaction().add(R.id.frame_base, mainActivityFragment, "MAIN_FRAGMENT").commit();
     }
 
-    public RestAPI getRetrofit(){
+    @BindingAdapter({"bind:imageUrl"})
+    public static void loadImage(ImageView view, String url) {
+        Picasso.with(view.getContext()).load(url).into(view);
+    }
+
+    public RestAPI getRetrofit() {
         if (service == null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -55,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
             httpClient.addInterceptor(logging);
-            Retrofit mRetrofit= new Retrofit.Builder()
+            Retrofit mRetrofit = new Retrofit.Builder()
                     .baseUrl("https://api.zappos.com/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build())
@@ -65,9 +74,9 @@ public class MainActivity extends AppCompatActivity {
         return service;
     }
 
-    public void showProductFragment(){
-        fragmentLayout.setVisibility(View.GONE);
-        frameLayout.setVisibility(View.VISIBLE);
+    public void showProductFragment() {
+//        fragmentLayout.setVisibility(View.GONE);
+//        frameLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -77,15 +86,15 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public Product getProduct(){
+    public Product getProduct() {
         // Make sure this is always called after setProduct
-        if (mProduct == null){
+        if (mProduct == null) {
             throw new NullPointerException();
         }
         return mProduct;
     }
 
-    public void setProduct(Product product){
+    public void setProduct(Product product) {
         mProduct = product;
     }
 

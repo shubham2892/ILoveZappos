@@ -19,7 +19,7 @@ public class ProductSearch {
     private int currentResultCount;
     @SerializedName("totalResultCount")
     @Expose
-    private String totalResultCount;
+    private int totalResultCount;
     @SerializedName("term")
     @Expose
     private String term;
@@ -46,11 +46,11 @@ public class ProductSearch {
         this.currentResultCount = currentResultCount;
     }
 
-    public String getTotalResultCount() {
+    public int getTotalResultCount() {
         return totalResultCount;
     }
 
-    public void setTotalResultCount(String totalResultCount) {
+    public void setTotalResultCount(int totalResultCount) {
         this.totalResultCount = totalResultCount;
     }
 

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
                 name="product"
@@ -10,16 +11,74 @@
 
     <LinearLayout
             android:layout_width="match_parent"
+            android:orientation="vertical"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:background="@color/colorAccent"
+            android:background="@android:color/white"
             tools:context="com.intern.zappos.Fragments.ProductFragment">
 
         <TextView
+                android:id="@+id/heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/background_dark"
+                android:layout_marginTop="@dimen/product_title_top_margin"
+                android:layout_marginStart="@dimen/product_title_left_margin"
+                android:gravity="start"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                android:text="@{product.productName}"/>
+
+        <TextView
+                android:id="@+id/sub_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/background_dark"
+                android:layout_marginTop="@dimen/product_title_top_margin"
+                android:layout_marginStart="@dimen/product_title_left_margin"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:gravity="start"
                 android:text="@{product.brandName}"/>
+        <!-- Thumbnail Image-->
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                   android:layout_marginTop="@dimen/product_title_top_margin"
+                    android:layout_gravity="center_horizontal"
+                   app:imageUrl="@{product.thumbnailImageUrl}"/>
+        <!-- Original price -->
+        <LinearLayout android:layout_width="match_parent"
+                      android:orientation="horizontal"
+                      android:layout_marginTop="@dimen/product_title_top_margin"
+                      android:layout_marginLeft="@dimen/product_title_left_margin"
+
+                      android:layout_height="wrap_content">
+            <TextView android:layout_width="wrap_content"
+                      android:text="Price:"
+                      android:layout_height="wrap_content"/>
+            <TextView android:layout_width="wrap_content"
+                      android:text="@{product.originalPrice}"
+                      android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <!-- Discounted Price -->
+        <LinearLayout android:layout_width="match_parent"
+                      android:orientation="horizontal"
+                      android:layout_marginTop="@dimen/product_title_top_margin"
+                      android:layout_marginLeft="@dimen/product_title_left_margin"
+
+                      android:layout_height="wrap_content">
+            <TextView android:layout_width="wrap_content"
+                      android:text="Our Price:"
+                      android:layout_height="wrap_content"/>
+            <TextView android:layout_width="wrap_content"
+                      android:text="@{product.price}"
+                      android:layout_height="wrap_content"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+            android:text="@{product.percentOff}"/>
+        </LinearLayout>
+
+        <Button android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/product_title_top_margin"
+                android:layout_gravity="center_horizontal"
+                android:actionProviderClass="android.widget.ShareActionProvider"
+                android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
