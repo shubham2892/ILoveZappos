@@ -26,11 +26,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     RestAPI service;
     Product mProduct;
-    //    private View fragmentLayout;
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                         // the added to cart message with animation
                         Snackbar.make(view, "Item added to cart", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
+                        view.setRotation(360f);
                     }
 
                     @Override
@@ -100,11 +101,6 @@ public class MainActivity extends AppCompatActivity {
         return service;
     }
 
-    public void showProductFragment() {
-//        fragmentLayout.setVisibility(View.GONE);
-//        frameLayout.setVisibility(View.VISIBLE);
-    }
-
 
     public Product getProduct() {
         // Make sure this is always called after setProduct
@@ -123,5 +119,18 @@ public class MainActivity extends AppCompatActivity {
         outState.putParcelable("product", getProduct());
         super.onSaveInstanceState(outState, outPersistentState);
 
+    }
+
+    public void showFab(){
+        fab.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        // Hiding the fab button as it should only be visible on product page.
+        // This would work because we are dealing with only two fragments and on backpress of main
+        // fragment app would close.
+        fab.hide();
     }
 }

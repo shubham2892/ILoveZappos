@@ -19,14 +19,10 @@ import android.widget.ShareActionProvider;
 public class ProductFragment extends Fragment implements View.OnClickListener {
 
     Product mProduct;
-    public ProductFragment() {
-
-    }
 
     public static ProductFragment newInstance() {
         return new ProductFragment();
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,7 +30,7 @@ public class ProductFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         FragmentProductBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_product, container, false);
-        mProduct = ((MainActivity)getActivity()).getProduct();
+        mProduct = ((MainActivity) getActivity()).getProduct();
         View view = binding.getRoot();
         binding.setProduct(mProduct);
         return view;
@@ -45,7 +41,12 @@ public class ProductFragment extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         // Locate MenuItem with ShareActionProvider
         Button item = (Button) view.findViewById(R.id.menu_item_share);
+        if (mProduct.getOriginalPrice().equals(mProduct.getPrice())) {
+            view.findViewById(R.id.text_discount).setVisibility(View.GONE);
+        } else {
+            view.findViewById(R.id.text_discount).setVisibility(View.VISIBLE);
 
+        }
         item.setOnClickListener(this);
 
     }
@@ -53,7 +54,7 @@ public class ProductFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.menu_item_share:
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
