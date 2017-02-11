@@ -3,7 +3,10 @@ package com.intern.zappos.POJOs;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Product {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Product implements Parcelable {
 
     @SerializedName("brandName")
     @Expose
@@ -35,6 +38,43 @@ public class Product {
     @SerializedName("productName")
     @Expose
     private String productName;
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(brandName);
+        parcel.writeString(thumbnailImageUrl);
+        parcel.writeString(productId);
+        parcel.writeString(originalPrice);
+        parcel.writeString(styleId);
+        parcel.writeString(colorId);
+        parcel.writeString(price);
+        parcel.writeString(percentOff);
+        parcel.writeString(productUrl);
+        parcel.writeString(productName);
+    }
+
+    private Product(Parcel in){
+        brandName = in.readString();
+        thumbnailImageUrl = in.readString();
+        productId = in.readString();
+        originalPrice = in.readString();
+        styleId = in.readString();
+        colorId = in.readString();
+        price = in.readString();
+        percentOff = in.readString();
+        productUrl = in.readString();
+        productName = in.readString();
+    }
+
+    public static final Parcelable.Creator<Product> CREATOR = new Parcelable.Creator<Product>() {
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 
     public String getBrandName() {
         return brandName;
@@ -114,6 +154,11 @@ public class Product {
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
 }

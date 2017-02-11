@@ -22,5 +22,19 @@
             android:layout_below="@id/edit_query"
             android:text="search"
             android:id="@+id/search_button_local"/>
+    <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/search_button_local"
+            android:layout_alignBottom="@+id/search_button_local"
+            android:paddingBottom="@dimen/product_title_top_margin"
+            android:layout_centerHorizontal="true"
+            android:indeterminate="true"
+            android:elevation="2dp"
+            android:indeterminateTint="@android:color/holo_blue_dark"
+            android:visibility="gone" />
+
 
 </RelativeLayout>

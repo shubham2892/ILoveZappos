@@ -40,42 +40,27 @@
         <!-- Thumbnail Image-->
         <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
                    android:layout_marginTop="@dimen/product_title_top_margin"
-                    android:layout_gravity="center_horizontal"
+                   android:layout_gravity="center_horizontal"
                    app:imageUrl="@{product.thumbnailImageUrl}"/>
         <!-- Original price -->
-        <LinearLayout android:layout_width="match_parent"
-                      android:orientation="horizontal"
-                      android:layout_marginTop="@dimen/product_title_top_margin"
-                      android:layout_marginLeft="@dimen/product_title_left_margin"
+        <TextView android:layout_width="wrap_content"
+                  android:text="@{@string/original_price(product.originalPrice)}"
+                  android:layout_margin="@dimen/product_title_top_margin"
+                  android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
 
-                      android:layout_height="wrap_content">
-            <TextView android:layout_width="wrap_content"
-                      android:text="Price:"
-                      android:layout_height="wrap_content"/>
-            <TextView android:layout_width="wrap_content"
-                      android:text="@{product.originalPrice}"
-                      android:layout_height="wrap_content"/>
-        </LinearLayout>
+                  android:layout_height="wrap_content"/>
         <!-- Discounted Price -->
-        <LinearLayout android:layout_width="match_parent"
-                      android:orientation="horizontal"
-                      android:layout_marginTop="@dimen/product_title_top_margin"
-                      android:layout_marginLeft="@dimen/product_title_left_margin"
+        <TextView android:layout_width="wrap_content"
+                  android:layout_margin="@dimen/product_title_top_margin"
+                  android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
 
-                      android:layout_height="wrap_content">
-            <TextView android:layout_width="wrap_content"
-                      android:text="Our Price:"
-                      android:layout_height="wrap_content"/>
-            <TextView android:layout_width="wrap_content"
-                      android:text="@{product.price}"
-                      android:layout_height="wrap_content"/>
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-            android:text="@{product.percentOff}"/>
-        </LinearLayout>
+                  android:layout_height="wrap_content"
+                  android:text="@{@string/discounted_price(product.price, product.percentOff)}"/>
 
         <Button android:layout_width="wrap_content"
                 android:layout_marginTop="@dimen/product_title_top_margin"
+                android:id="@+id/menu_item_share"
+                android:text="Share"
                 android:layout_gravity="center_horizontal"
                 android:actionProviderClass="android.widget.ShareActionProvider"
                 android:layout_height="wrap_content"/>

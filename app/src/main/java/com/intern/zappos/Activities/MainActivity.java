@@ -6,18 +6,18 @@ import com.intern.zappos.POJOs.Product;
 import com.intern.zappos.R;
 import com.squareup.picasso.Picasso;
 
+import android.app.Fragment;
 import android.databinding.BindingAdapter;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.app.Fragment;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 
 import okhttp3.OkHttpClient;
@@ -43,12 +43,38 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                final OvershootInterpolator interpolator = new OvershootInterpolator();
+
+                ViewCompat.animate(view).setListener(new ViewPropertyAnimatorListener() {
+                    @Override
+                    public void onAnimationStart(View view) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(View view) {
+                        ((FloatingActionButton)view).hide();
+                        // Add item to the cart here. Actually nothing happening, just showing
+                        // the added to cart message with animation
+                        Snackbar.make(view, "Item added to cart", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+
+                    @Override
+                    public void onAnimationCancel(View view) {
+
+                    }
+                }).rotation(90f).withLayer().setDuration(400).setInterpolator(interpolator).start();
+
             }
         });
-        Fragment mainActivityFragment = new MainActivityFragment();
-        getFragmentManager().beginTransaction().add(R.id.frame_base, mainActivityFragment, "MAIN_FRAGMENT").commit();
+        // Checking if saved Instance already exists
+        if (savedInstanceState == null) {
+            Fragment mainActivityFragment = MainActivityFragment.newInstance();
+            getFragmentManager().beginTransaction().add(R.id.frame_base, mainActivityFragment, "MAIN_FRAGMENT").commit();
+        } else {
+            setProduct((Product) savedInstanceState.getParcelable("product"));
+        }
     }
 
     @BindingAdapter({"bind:imageUrl"})
@@ -79,12 +105,6 @@ public class MainActivity extends AppCompatActivity {
 //        frameLayout.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
     public Product getProduct() {
         // Make sure this is always called after setProduct
@@ -99,17 +119,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        outState.putParcelable("product", getProduct());
+        super.onSaveInstanceState(outState, outPersistentState);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
